@@ -24,13 +24,38 @@
 #' )
 #' }
 arxiv_sleep_then_batch <- function(
-  query, start, limit, batch_size, batch_number, sleep, timeout = 30, sep = "|"
+  query,
+  start,
+  limit,
+  batch_size,
+  batch_number,
+  sleep,
+  timeout = 30,
+  sep = "|"
 ) {
 
   Sys.sleep(sleep)
 
   result <-
     arxiv_request(query, start, limit, batch_size, timeout = timeout, sep = sep)
+
+  while (nrow(result) != limit) {
+    message("Batch not fully retrieved. Sleeping for 1 minute.")
+    Sys.sleep(60)
+
+    result <-
+      bind_rows(
+        result,
+        arxiv_request(
+          query,
+          start = nrow(result),
+          limit = limit,
+          batch_size = batch_size,
+          timeout = timeout,
+          sep = sep
+        )
+      )
+  }
 
   message("Retrieved batch ", batch_number)
 
