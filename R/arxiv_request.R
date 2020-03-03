@@ -1,9 +1,13 @@
-#' Query the arXiv API
+#' Query the arXiv API.
+#'
+#' For instructions on writing queries, see the aRxiv package tutorial:
+#' https://ropensci.org/tutorials/arxiv_tutorial/, specifically the "Search terms"
+#' section.
 #'
 #'
 #' @param query String with the API query
-#' @param start Index to start at.
-#' @param limit Maximum number of papers to return.
+#' @param start Index to start at
+#' @param limit Maximum number of papers to return
 #' @param batch_size batch_size
 #' @param sleep Seconds to sleep between batches
 #' @param timeout Timeout seconds
@@ -23,14 +27,32 @@
 #' )
 #' }
 arxiv_request <-
-  function(query, start, limit, batch_size, sleep = 0, timeout = 30, sep = "|") {
+  function(
+    query,
+    start = 0,
+    limit,
+    batch_size,
+    sleep = 0,
+    timeout = 30,
+    sep = "|"
+  ) {
+
+    count <- aRxiv::arxiv_count(query)
+    if (count < start + limit) {
+      message(
+        "The total number of papers is less than `limit`. Retrieving ",
+        count - start,
+        " papers instead."
+      )
+      limit <- count - start
+    }
 
     url <- "http://export.arxiv.org/api/query"
     body <-
       list(
         search_query = query,
         start = start,
-        max_results = limit,
+        max_results = as.integer(limit),
         sortOrder = "ascending"
       )
 
@@ -49,6 +71,8 @@ arxiv_request <-
         arxiv_as_tibble(sep = sep)
     }
   }
+
+
 
 send_request <- function(url, body, timeout) {
   search_result <-

@@ -2,11 +2,11 @@
 % Please edit documentation in R/arxiv_request.R
 \name{arxiv_request}
 \alias{arxiv_request}
-\title{Query the arXiv API}
+\title{Query the arXiv API.}
 \usage{
 arxiv_request(
   query,
-  start,
+  start = 0,
   limit,
   batch_size,
   sleep = 0,
@@ -17,9 +17,9 @@ arxiv_request(
 \arguments{
 \item{query}{String with the API query}
 
-\item{start}{Index to start at.}
+\item{start}{Index to start at}
 
-\item{limit}{Maximum number of papers to return.}
+\item{limit}{Maximum number of papers to return}
 
 \item{batch_size}{batch_size}
 
@@ -33,7 +33,9 @@ arxiv_request(
 A tibble
 }
 \description{
-Query the arXiv API
+For instructions on writing queries, see the aRxiv package tutorial:
+https://ropensci.org/tutorials/arxiv_tutorial/, specifically the "Search terms"
+section.
 }
 \examples{
 \donttest{

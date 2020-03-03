@@ -11,7 +11,6 @@
 #' @param sep Separator
 #'
 #' @return A tibble
-#' @export
 #'
 #' @examples
 #' \donttest{
@@ -62,7 +61,10 @@ arxiv_sleep_then_batch <- function(
   result
 }
 
-#' Query the arXiv API in batches
+#' Query the arXiv API in batches.
+#'
+#' Will continue sleeping, then attempting to retrieve the batch until a result
+#' the same size as the batch is found.
 #'
 #'
 #' @param query String with the API query
@@ -74,7 +76,6 @@ arxiv_sleep_then_batch <- function(
 #' @param sep Separator
 #'
 #' @return A tibble of papers
-#' @export
 #'
 #' @examples
 #' \donttest{

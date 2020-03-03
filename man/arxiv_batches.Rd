@@ -2,7 +2,7 @@
 % Please edit documentation in R/arxiv_batches.R
 \name{arxiv_batches}
 \alias{arxiv_batches}
-\title{Query the arXiv API in batches}
+\title{Query the arXiv API in batches.}
 \usage{
 arxiv_batches(query, start, limit, batch_size, sleep, timeout = 30, sep = "|")
 }
@@ -25,7 +25,8 @@ arxiv_batches(query, start, limit, batch_size, sleep, timeout = 30, sep = "|")
 A tibble of papers
 }
 \description{
-Query the arXiv API in batches
+Will continue sleeping, then attempting to retrieve the batch until a result
+the same size as the batch is found.
 }
 \examples{
 \donttest{
